@@ -17,7 +17,7 @@ import time
 import websocket
 import time
 
-ESP32_IP = "10.208.166.35"  # replace with your ESP32 IP
+ESP32_IP = "ipaddress"  # replace with your ESP32 IP
 ws = websocket.WebSocket()
 ws.connect(f"ws://{ESP32_IP}:81")
 
@@ -78,4 +78,5 @@ while True:
         break
 ws.close()
 camera.release()
+
 cv.destroyAllWindows()
