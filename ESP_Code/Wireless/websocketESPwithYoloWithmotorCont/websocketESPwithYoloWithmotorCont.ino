@@ -7,8 +7,8 @@
 
 #define LED_PIN 2
 
-const char* ssid = "Galaxy A22 5G9921";
-const char* password = "password12";
+const char* ssid = "ssid";
+const char* password = "password";
 
 const int dir1 = 3; //pin to change direction for motor M1
 const int pwm1 = 5; //Pwm pin for motor M1 ---Left
