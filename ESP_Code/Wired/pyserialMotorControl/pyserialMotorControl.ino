@@ -31,6 +31,8 @@ void loop() {
     Serial.println(receivedData);
 
     if(receivedData.indexOf("dislike")!=-1){
+      digitalWrite(LED_PIN,LOW);
+
     moveForward();
     }
 
