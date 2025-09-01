@@ -1,8 +1,11 @@
+
+#define LED_PIN 2
+
 // Please update pin number before uploading the code
-const int dir1 = 3; //pin to change direction for motor M1
-const int pwm1 = 5; //Pwm pin for motor M1 ---Left
-const int pwm2 = 6;// Pwm pin for motor M2 ---Right
-const int dir2 = 7; // pin to change direction for motor M2
+const int dir1 = 14; //pin to change direction for motor M1
+const int pwm1 = 26; //Pwm pin for motor M1 ---Left
+const int pwm2 = 18;// Pwm pin for motor M2 ---Right
+const int dir2 = 5; // pin to change direction for motor M2
 
 // class_names = ["dislike", "fist", "one", "peace", "stop", "no_gesture"]
 // actions     = [forward ,  backward, left, right,   stop,   stop]
@@ -10,7 +13,7 @@ const int dir2 = 7; // pin to change direction for motor M2
 
 
 void setup() {
-
+  pinMode(LED_PIN,OUTPUT);
   pinMode(dir1,OUTPUT);
   pinMode(pwm1,OUTPUT);
   pinMode(pwm2,OUTPUT);
@@ -32,22 +35,28 @@ void loop() {
     }
 
     else if(receivedData.indexOf("fist")!=-1){
+      digitalWrite(LED_PIN,LOW);
     moveBackward();
     }
 
     else if(receivedData.indexOf("one")!=-1){
+      digitalWrite(LED_PIN,LOW);
+
     turnLeft();
     }
 
     else if(receivedData.indexOf("peace")!=-1){
+      digitalWrite(LED_PIN,LOW);
     turnRight();
     }
 
     else if(receivedData.indexOf("stop")!=-1){
+      digitalWrite(LED_PIN,HIGH);
     stop();
     }
 
     else if(receivedData.indexOf("no_gesture")!=-1){
+      digitalWrite(LED_PIN,HIGH);
     stop();
     }
 
