@@ -7,17 +7,16 @@
 
 #define LED_PIN 2
 
-const char* ssid = "ssid";
-const char* password = "password";
+const char *ssid = "Galaxy A22 5G9921";
+const char *password = "password12";
 
-const int dir1 = 3; //pin to change direction for motor M1
-const int pwm1 = 5; //Pwm pin for motor M1 ---Left
-const int pwm2 = 6;// Pwm pin for motor M2 ---Right
-const int dir2 = 7; // pin to change direction for motor M2
+const int dir1 = 14; // pin to change direction for motor M1
+const int pwm1 = 26; // Pwm pin for motor M1 ---Left
+const int pwm2 = 18; // Pwm pin for motor M2 ---Right
+const int dir2 = 5;  // pin to change direction for motor M2
 
 // class_names = ["dislike", "fist", "one", "peace", "stop", "no_gesture"]
 // actions     = [forward ,  backward, left, right,   stop,   stop]
-
 
 // WebSocket server runs on port 81
 WebSocketsServer webSocket = WebSocketsServer(81);
@@ -27,17 +26,21 @@ int resolution = 8;
 int channelCounter = 0;
 
 // Map pin → channel
-struct PinChannel {
+struct PinChannel
+{
   int pin;
   int channel;
 };
 PinChannel pinChannels[16];
 int pinCount = 0;
 
-int getChannelForPin(int pin) {
+int getChannelForPin(int pin)
+{
   // check if already exists
-  for (int i = 0; i < pinCount; i++) {
-    if (pinChannels[i].pin == pin) return pinChannels[i].channel;
+  for (int i = 0; i < pinCount; i++)
+  {
+    if (pinChannels[i].pin == pin)
+      return pinChannels[i].channel;
   }
   // assign new channel
   int ch = channelCounter++;
@@ -48,9 +51,11 @@ int getChannelForPin(int pin) {
   return ch;
 }
 
-void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
-  if (type == WStype_TEXT) {
-    String msg = String((char*)payload);
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
+{
+  if (type == WStype_TEXT)
+  {
+    String msg = String((char *)payload);
 
     // Expected format: PIN:<pin>:<value>
     // if (msg.startsWith("PIN:")) {
@@ -69,54 +74,66 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
     //   }
     // }
 
-
     Serial.print(msg);
 
-    if(msg.indexOf("dislike")!=-1){
-    moveForward();
+    if (msg.indexOf("dislike") != -1)
+    {
+      digitalWrite(LED_PIN, LOW);
+      moveForward();
     }
 
-    else if(msg.indexOf("fist")!=-1){
-    moveBackward();
+    else if (msg.indexOf("fist") != -1)
+    {
+      digitalWrite(LED_PIN, LOW);
+      moveBackward();
     }
 
-    else if(msg.indexOf("one")!=-1){
-    turnLeft();
+    else if (msg.indexOf("one") != -1)
+    {
+      digitalWrite(LED_PIN, LOW);
+      turnLeft();
     }
 
-    else if(msg.indexOf("peace")!=-1){
-    turnRight();
+    else if (msg.indexOf("peace") != -1)
+    {
+      digitalWrite(LED_PIN, LOW);
+      turnRight();
     }
 
-    else if(msg.indexOf("stop")!=-1){
-    stop();
+    else if (msg.indexOf("stop") != -1)
+    {
+      digitalWrite(LED_PIN, HIGH);
+      stop();
     }
 
-    else if(msg.indexOf("no_gesture")!=-1){
-    stop();
+    else if (msg.indexOf("no_gesture") != -1)
+    {
+      digitalWrite(LED_PIN, HIGH);
+      stop();
     }
-
   }
 }
 
-void setup() {
+void setup()
+{
 
-  pinMode(dir1,OUTPUT);
-  pinMode(pwm1,OUTPUT);
-  pinMode(pwm2,OUTPUT);
-  pinMode(dir2,OUTPUT);
-
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(dir1, OUTPUT);
+  pinMode(pwm1, OUTPUT);
+  pinMode(pwm2, OUTPUT);
+  pinMode(dir2, OUTPUT);
 
   Serial.begin(115200);
-  pinMode(2,OUTPUT);
+  pinMode(2, OUTPUT);
   WiFi.begin(ssid, password);
   Serial.print("Connecting to WiFi");
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
     delay(500);
     Serial.print(".");
   }
   Serial.println("\nWiFi connected!");
-  digitalWrite(LED_PIN,HIGH);
+  digitalWrite(LED_PIN, HIGH);
   Serial.print("ESP32 IP: ");
   Serial.println(WiFi.localIP());
 
@@ -124,45 +141,49 @@ void setup() {
   webSocket.onEvent(webSocketEvent);
 }
 
-void loop() {
+void loop()
+{
   webSocket.loop();
 }
 
 // Control Functions
 
-void stop(){
- digitalWrite(dir1,HIGH);
- digitalWrite(dir2,HIGH); 
- analogWrite(pwm1,0); 
- analogWrite(pwm2,0); 
+void stop()
+{
+  digitalWrite(dir1, HIGH);
+  digitalWrite(dir2, HIGH);
+  analogWrite(pwm1, 0);
+  analogWrite(pwm2, 0);
 }
 
-void moveForward(){
- digitalWrite(dir1,HIGH);
- digitalWrite(dir2,HIGH); 
- analogWrite(pwm1,255); 
- analogWrite(pwm2,255); 
+void moveForward()
+{
+  digitalWrite(dir1, HIGH);
+  digitalWrite(dir2, HIGH);
+  analogWrite(pwm1, 255);
+  analogWrite(pwm2, 255);
 }
 
-void moveBackward(){
- digitalWrite(dir1,LOW);
- digitalWrite(dir2,LOW); 
- analogWrite(pwm1,255); 
- analogWrite(pwm2,255); 
+void moveBackward()
+{
+  digitalWrite(dir1, LOW);
+  digitalWrite(dir2, LOW);
+  analogWrite(pwm1, 255);
+  analogWrite(pwm2, 255);
 }
 
-
-void turnLeft(){
- digitalWrite(dir1,LOW);
- digitalWrite(dir2,HIGH); 
- analogWrite(pwm1,255); 
- analogWrite(pwm2,255); 
+void turnLeft()
+{
+  digitalWrite(dir1, LOW);
+  digitalWrite(dir2, HIGH);
+  analogWrite(pwm1, 255);
+  analogWrite(pwm2, 255);
 }
 
-void turnRight(){
- digitalWrite(dir1,HIGH);
- digitalWrite(dir2,LOW); 
- analogWrite(pwm1,255); 
- analogWrite(pwm2,255); 
+void turnRight()
+{
+  digitalWrite(dir1, HIGH);
+  digitalWrite(dir2, LOW);
+  analogWrite(pwm1, 255);
+  analogWrite(pwm2, 255);
 }
-
