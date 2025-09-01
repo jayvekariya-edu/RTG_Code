@@ -5,8 +5,8 @@
 #include <WiFi.h>
 #include <WebSocketsServer_Generic.h>
 
-const char* ssid = "Galaxy A22 5G9921";
-const char* password = "password12";
+const char* ssid = "ssid";
+const char* password = "password";
 
 // WebSocket server runs on port 81
 WebSocketsServer webSocket = WebSocketsServer(81);
