@@ -8,7 +8,7 @@ const int pwm2 = 18;// Pwm pin for motor M2 ---Right
 const int dir2 = 5; // pin to change direction for motor M2
 
 // class_names = ["dislike", "fist", "one", "peace", "stop", "no_gesture"]
-// actions     = [forward ,  backward, left, right,   stop,   stop]
+// actions     = [backward,  forward , left, right,   stop,   stop]
 
 
 
